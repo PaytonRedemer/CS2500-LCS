@@ -1,13 +1,33 @@
 #include <iostream>
 
-using std::string;
+void lcs_length(std::string x, std::string y, int m, int n, char** b);
+void print_lcs(char** b, std::string x, int i, int j);
 
-void lcs_length(string x, string y)
+int main()
 {
+    std::string x = "ACCGGTCGAGTGCGCGGAAGCCGGCCGAA";
+    std::string y = "GTCGTTCGGAATGCCGTTGCTCTGTAAA";
+
     int m = x.length();
     int n = y.length();
 
-    char b[m+1][n+1];
+    // char b[m+1][n+1];
+    char **b = new char*[m+1];
+    for(int i = 0; i <= m; i++)
+        b[i] = new char[n+1];
+
+    lcs_length(x, y, m, n, b);
+
+    std::cout << "The longest common subsequence is \"";
+    print_lcs(b, x, m, n);
+    std::cout << "\"" << std::endl;
+
+    return 0;
+}
+
+
+void lcs_length(std::string x, std::string y, int m, int n, char** b)
+{
     int c[m+1][n+1];
 
     for(int i = 1; i <= m; i++)
@@ -38,15 +58,18 @@ void lcs_length(string x, string y)
     }
 }
 
-void print_lcs()
+void print_lcs(char** b, std::string x, int i, int j)
 {
-
-}
-
-
-int main()
-{
-
-
-    return 0;
+    if(i == 0 || j == 0)
+        return;
+    
+    if(b[i][j] == 'D')
+    {
+        print_lcs(b, x, i-1, j-1);
+        std::cout << x[i];
+    }
+    else if(b[i][j] == 'U')
+        print_lcs(b, x, i-1, j);
+    else
+        print_lcs(b, x, i, j-1);
 }
