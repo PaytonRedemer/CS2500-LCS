@@ -25,7 +25,6 @@ int main()
     int m = x.length();
     int n = y.length();
 
-
     // create dynamic array b[m+1][n+1] to pass to function
     char **b = new char*[m+1];
     for(int i = 0; i <= m; i++)
@@ -45,7 +44,6 @@ int main()
 
     return 0;
 }
-
 
 int lcs_length(std::string x, std::string y, int m, int n, char** b)
 {
@@ -77,7 +75,6 @@ int lcs_length(std::string x, std::string y, int m, int n, char** b)
             }
         }
     }
-
     return c[m][n];
 }
 
