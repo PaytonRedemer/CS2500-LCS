@@ -1,12 +1,25 @@
+// Author: Payton Redemer
+// File: LCS.cpp
+// Purpose: Implement the Longest Common Subsequence
 #include <iostream>
 
-void lcs_length(std::string x, std::string y, int m, int n, char** b);
+// Purpose: Create b table and return the length for the Longest Common Subsequence algorithm
+// Precondition: m = x.length, n = y.length, b is a mxn array
+// Postcondition: Filled out b table
+int lcs_length(std::string x, std::string y, int m, int n, char** b);
+
+// Purpose: Print out Longest Common Subsequence
+// Precondition: b was created with lcs_length() using the x and y, i = x.length, j = y.length
+// Postcondition: Print out Longest Common Subsequence
 void print_lcs(char** b, std::string x, int i, int j);
 
 int main()
 {
     std::string x = "ACCGGTCGAGTGCGCGGAAGCCGGCCGAA";
     std::string y = "GTCGTTCGGAATGCCGTTGCTCTGTAAA";
+
+    x = "ATGCCA";
+    y = "TCACCA";
 
     int m = x.length();
     int n = y.length();
@@ -16,17 +29,25 @@ int main()
     for(int i = 0; i <= m; i++)
         b[i] = new char[n+1];
 
-    lcs_length(x, y, m, n, b);
+    int length = lcs_length(x, y, m, n, b);
 
     std::cout << "The longest common subsequence is \"";
     print_lcs(b, x, m, n);
-    std::cout << "\"" << std::endl;
+    std::cout << "\" and the length is " << length-1 << std::endl;
+
+    for(int i = 0; i <= m; i++)
+    {
+        for(int j = 0; j <= n; j++)
+            std::cout << b[i][j] << " ";
+        std::cout << std::endl;
+    }
+    
 
     return 0;
 }
 
 
-void lcs_length(std::string x, std::string y, int m, int n, char** b)
+int lcs_length(std::string x, std::string y, int m, int n, char** b)
 {
     int c[m+1][n+1];
 
@@ -39,7 +60,7 @@ void lcs_length(std::string x, std::string y, int m, int n, char** b)
     {
         for(int j = 1; j <= n; j++)
         {
-            if(x[i-1] == y[j-1])
+            if(x[i] == y[j])
             {
                 c[i][j] = c[i-1][j-1] + 1;
                 b[i][j] = 'D';
@@ -56,6 +77,7 @@ void lcs_length(std::string x, std::string y, int m, int n, char** b)
             }
         }
     }
+    return c[m][n];
 }
 
 void print_lcs(char** b, std::string x, int i, int j)
